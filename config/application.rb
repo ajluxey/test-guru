@@ -20,7 +20,6 @@ module TestGuru
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}')]
     config.i18n.default_locale = :ru
-    puts Rails.public_path
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end

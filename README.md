@@ -1,24 +1,58 @@
-# README
+This is test project for learning ruby. Test-Guru is a test application where users can select the test and pass it.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ruby version: 3.0.0
+Rails version: 6.1.3.2
 
-Things you may want to cover:
+Пояснение - далее будут описаны сущности, которые будут реализованы (или уже реализованы) в приложении.
+Модель - примерное описание модели для класса, в которой условно заданы поля
 
-* Ruby version
+Сущности:
+    1) Application < RailsApplication - само приложение, которое всё контролирует
 
-* System dependencies
+    2) User - класс пользователя. Пользователь сможет зайти на сайт, выбрать тест на интересующую его тему, пройти его и получить результат.
 
-* Configuration
+    Модель:
+        id
+        username
+        hashpwd (* если потребуется регистрация, авторизация и аутентификаця)
+        is_active (*)
+        last_login (*)
+        passed_tests (One-To-Many to PassedTest)
+    
+    3) PassedTest - класс представления представление таблицы. Будет получать из класс Test резульат теста, и сохранять их для конкретного пользователя.
 
-* Database creation
+    Модель:
+        id
+        user_id
+        test_id
+        result
 
-* Database initialization
+    4) Test - класс теста. Тест будет иметь поля, определяющие его тему и количество вопросов в нем. Методы описанные в классе будут генерировать список вопросов из таблицы Questions и получать результаты теста.
 
-* How to run the test suite
+    Модель:
+        id
+        theme (One-To-One to model Theme)
+        questions_count
+    
+    5) Theme - класс темы. Будет являться представлением таблицы Тема. Пока без функционала. Будет иметь название темы и список ассоциированных с ней вопросов (будет запрашивать из таблицы вопросов)
 
-* Services (job queues, cache servers, search engines, etc.)
+    Модель:
+        id
+        name
+        questions (One-To-Many to model Question)
+    
+    6) Question - класс вопросов. Класс содержит в себе описание вопроса и несколько вариантов ответа на вопрос (будет брать из таблицы QuestionAnswer). Методы позволят определить отвечен ли вопрос и правильность ответа на вопрос.
 
-* Deployment instructions
+    Модель:
+        id
+        theme_id
+        description
+        answers (One-To-Many to model QuestionAnswer)
 
-* ...
+    7) QuestionAnswer - представление таблицы QuestionAnswer. Будет содержать описание ответа на вопрос и булеву переменную - правильный ответ или нет. Данныая модель позволит включать в вопрос переменное количество ответов на него, а так же несколько вариантов правильных ответов.
+
+    Модель:
+        id
+        question_id
+        answer
+        right

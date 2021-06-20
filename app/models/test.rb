@@ -1,8 +1,8 @@
 class Test < ApplicationRecord
-  belongs_to :category
-  has_and_belongs_to_many :users, join_table: 'users_start_tests'
-
   def self.all_by_category(cat_title)
-    Test.joins(:category).where(category: { title: cat_title })
+    Test.joins('JOIN categories ON tests.category_id = categories.id')
+        .where(categories: { title: cat_title })
+        .order(:title, :desc)
+        .map(&:title)
   end
 end

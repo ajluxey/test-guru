@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 2021_06_19_103500) do
   create_table "users_start_tests", id: false, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "test_id", null: false
+    t.index ["test_id", "user_id"], name: "index_users_start_tests_on_test_id_and_user_id"
+    t.index ["user_id", "test_id"], name: "index_users_start_tests_on_user_id_and_test_id"
   end
 
   add_foreign_key "answers", "questions"

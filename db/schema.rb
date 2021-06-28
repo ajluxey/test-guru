@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_212108) do
+ActiveRecord::Schema.define(version: 2021_06_19_103500) do
 
   create_table "answers", force: :cascade do |t|
     t.string "body", null: false
@@ -51,6 +51,13 @@ ActiveRecord::Schema.define(version: 2021_06_14_212108) do
     t.string "password", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users_start_tests", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "test_id", null: false
+    t.index ["test_id", "user_id"], name: "index_users_start_tests_on_test_id_and_user_id"
+    t.index ["user_id", "test_id"], name: "index_users_start_tests_on_user_id_and_test_id"
   end
 
   add_foreign_key "answers", "questions"

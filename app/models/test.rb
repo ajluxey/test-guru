@@ -20,4 +20,9 @@ class Test < ApplicationRecord
     .order(:title, :desc)
     .pluck(:title)
   end
+
+  validates :title, presence: true
+  validates :title, uniqueness: { scope: :level }
+  validates :level, numericality: { greater_than_or_equal_to: 0,
+                                    only_integer: true }
 end

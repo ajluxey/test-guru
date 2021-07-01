@@ -11,6 +11,8 @@ class User < ApplicationRecord
            through: :users_start_tests,
            source: :test
 
+  validates :login, presence: true
+
   def get_passed_tests_with_level(n)
     Test.joins(:users_start_tests).where('user_id = ?', id).where('passed').where(level: n)
   end

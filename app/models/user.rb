@@ -5,15 +5,13 @@ class User < ApplicationRecord
            dependent: :destroy
 
   has_many :users_start_tests,
-           class_name: 'UsersStartTest',
            dependent: :destroy
 
   has_many :started_tests,
            through: :users_start_tests,
-           source: :test,
-           dependent: :destroy
+           source: :test
 
   def get_passed_tests_with_level(n)
-    Test.joins(:users_start_tests).where('user_id = ?', id).where(level: n)
+    Test.joins(:users_start_tests).where('user_id = ?', id).where('passed').where(level: n)
   end
 end

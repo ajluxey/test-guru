@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2021_06_29_062839) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["author_id"], name: "index_tests_on_author_id"
     t.index ["category_id"], name: "index_tests_on_category_id"
+    t.index ["title", "level"], name: "index_tests_on_title_and_level", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -57,8 +58,7 @@ ActiveRecord::Schema.define(version: 2021_06_29_062839) do
     t.integer "user_id", null: false
     t.integer "test_id", null: false
     t.boolean "passed", default: false
-    t.index ["test_id", "user_id"], name: "index_users_start_tests_on_test_id_and_user_id"
-    t.index ["user_id", "test_id"], name: "index_users_start_tests_on_user_id_and_test_id"
+    t.index ["user_id", "test_id"], name: "index_users_start_tests_on_user_id_and_test_id", unique: true
   end
 
   add_foreign_key "answers", "questions"

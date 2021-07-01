@@ -1,5 +1,5 @@
 class UsersStartTest < ApplicationRecord
-    belongs_to :user
-    belongs_to :test
+  belongs_to :user
+  belongs_to :test
 end
   

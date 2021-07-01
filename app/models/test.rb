@@ -9,6 +9,10 @@ class Test < ApplicationRecord
   has_many :is_started_by_users,
            through: :users_start_tests,
            source: :user
+  
+  scope :easy, -> { where(level: 0..1) }
+  scope :middle, -> { where(level: 2..4) }
+  scope :hard, -> { where(level: 5..Float::INFINITY) }
 
   def self.all_by_category(cat_title)
     joins(:category) 

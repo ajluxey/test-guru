@@ -14,9 +14,9 @@ class Test < ApplicationRecord
   scope :middle, -> { where(level: 2..4) }
   scope :hard, -> { where(level: 5..Float::INFINITY) }
   
-  scope :all_by_category, ->(cat_title) do
+  scope :all_by_category, ->(category_title) do
     joins(:category)
-    .where(categories: { title: cat_title })
+    .where(categories: { title: category_title })
     .order(:title, :desc)
     .pluck(:title)
   end

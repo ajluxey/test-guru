@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_29_062839) do
+ActiveRecord::Schema.define(version: 2021_07_03_171240) do
 
   create_table "answers", force: :cascade do |t|
     t.string "body", null: false
@@ -54,15 +54,21 @@ ActiveRecord::Schema.define(version: 2021_06_29_062839) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "users_start_tests", id: false, force: :cascade do |t|
+  create_table "users_tests_progresses", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "test_id", null: false
     t.boolean "passed", default: false
-    t.index ["user_id", "test_id"], name: "index_users_start_tests_on_user_id_and_test_id", unique: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["test_id"], name: "index_users_tests_progresses_on_test_id"
+    t.index ["user_id", "test_id"], name: "index_users_tests_progresses_on_user_id_and_test_id", unique: true
+    t.index ["user_id"], name: "index_users_tests_progresses_on_user_id"
   end
 
   add_foreign_key "answers", "questions"
   add_foreign_key "questions", "tests"
   add_foreign_key "tests", "categories"
   add_foreign_key "tests", "users", column: "author_id"
+  add_foreign_key "users_tests_progresses", "tests"
+  add_foreign_key "users_tests_progresses", "users"
 end

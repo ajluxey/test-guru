@@ -13,7 +13,10 @@ class User < ApplicationRecord
 
   validates :login, presence: true
 
-  def get_passed_tests_with_level(n)
-    Test.joins(:users_tests_progress).where('user_id = ?', id).where('passed').where(level: n)
+  def get_passed_tests_with_level(level)
+    Test.joins(:users_tests_progress)
+        .where('user_id = ?', id)
+        .where(users_tests_progress: { passed: true })
+        .where(level: level)
   end
 end

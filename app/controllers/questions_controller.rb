@@ -1,37 +1,33 @@
 class QuestionsController < ApplicationController
-  # Это вынужденная мера, т.к. мои рельсы не могут подгрузить в хедере следующую строку
-  # <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  # Это вызывает ошибку Webpacker::Manifest::MissingEntryError in Questions#new
-  layout false
   
   before_action :find_test, only: %i[index new create]
+  before_action :find_question, only: %i[show destroy]
 
   rescue_from ActiveRecord::RecordNotFound, with: :rescue_with_question_not_found
 
-  # Method which return all questions for test with id = test_id
-  # Prefix - test_questions
   def index
-    # Код ниже написан для удобства - чтобы знать какой id у какого вопроса
-    # Я знаю, что не совсем корректно "наводить красоту" в контроллере и лучше делать это во View
-    # Весь код можно заменить на
-    # render plain: @test.questions.pluck(:body).join("\n")
     response_str = "All questions for test \"#{@test.title}\":\n"
     @test.questions.pluck(:id, :body).each { |id, body| response_str += "id: #{id}; Question: \"#{body}\"\n" }
     render plain: response_str
   end
 
-  # Method which return specific question by id
-  # Prefix - question
   def show
-    render plain: Question.find(params[:id]).body
+    render plain: @question.body
   end
 
   def create
-    Question.create!(question_params)
+    question = @test.questions.new(question_params)
+    if question.valid?
+      question.save
+      redirect_to :action => 'show', :id => question.id
+    else
+      redirect_to :action => 'new'
+    end
   end
 
   def destroy
-    Question.find(params[:id]).destroy
+    @question.destroy
+    redirect_to :action => 'show', :id => @question.test.id
   end
 
   private
@@ -40,8 +36,12 @@ class QuestionsController < ApplicationController
     @test = Test.find(params[:test_id])
   end
 
+  def find_question
+    @question = Question.find(params[:id])
+  end
+
   def question_params
-    params.require(:question).permit(:body).merge(test: @test)
+    params.require(:question).permit(:body)
   end
 
   def rescue_with_question_not_found

@@ -16,18 +16,17 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    question = @test.questions.new(question_params)
-    if question.valid?
-      question.save
-      redirect_to :action => 'show', :id => question.id
+    @question = @test.questions.new(question_params)
+    if @question.save
+      redirect_to @question
     else
-      redirect_to :action => 'new'
+      render :new
     end
   end
 
   def destroy
     @question.destroy
-    redirect_to :action => 'show', :id => @question.test.id
+    redirect_to @question
   end
 
   private

@@ -1,9 +1,12 @@
 module QuestionsHelper
-  def question_header(test, title)
-    if title == 'create'
-      return "Create new question for #{test.title}"
+  def question_header(question, action)
+    case action
+    when :new
+      return "Create new question for #{question.test.title}"
+    when :edit
+      return "Edit #{question.test.title} question"
     else
-      return "Edit #{test.title} question"
+      return "Unknown action for #{question.test.title} question"
     end
   end
 end

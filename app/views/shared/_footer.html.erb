@@ -1,5 +1,5 @@
 <footer>
-  <p><%= year_now %>, Aleksey, Project: <a href=<%= github_url('ajluxey', 'test-guru') %> rel="nofollow" target="_blank">TestGuru</a></p>
+  <p><%= year_now %>, Aleksey, Project: <%= github_url('ajluxey', 'test-guru') %></p>
   <p>This site is a platform for conducting tests. Registered users will be able to create their own tests and take tests created by other users. This project is my attempt at mastering Ruby on Rails</p>
-  <a href="https://www.thinknetica.com" rel="nofollow" target="_blank">Study project at Thinknetica online school</a>
+  <%= link_to 'Study project at Thinknetica online school', "https://www.thinknetica.com", target:"_blank", rel: "nofollow" %>
 </footer>

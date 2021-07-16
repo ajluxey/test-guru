@@ -1,0 +1,5 @@
+<h2>Question with id <%= @question.id%> for test <%= @question.test.title %></h2>
+<h3>The question is:</h3>
+<p><%= @question.body %></p>
+
+<%= link_to 'Back', @question.test %>

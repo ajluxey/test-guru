@@ -1,18 +1,12 @@
 class QuestionsController < ApplicationController
   
-  before_action :find_test, only: %i[index new create]
-  before_action :find_question, only: %i[show destroy]
+  before_action :find_test, only: %i[new create]
+  before_action :find_question, only: %i[show edit update destroy]
 
   rescue_from ActiveRecord::RecordNotFound, with: :rescue_with_question_not_found
 
-  def index
-    response_str = "All questions for test \"#{@test.title}\":\n"
-    @test.questions.pluck(:id, :body).each { |id, body| response_str += "id: #{id}; Question: \"#{body}\"\n" }
-    render plain: response_str
-  end
-
-  def show
-    render plain: @question.body
+  def new
+    @question = @test.questions.new
   end
 
   def create
@@ -24,9 +18,17 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def update
+    if @question.update(question_params)
+      redirect_to @question
+    else
+      render :edit
+    end
+  end
+
   def destroy
     @question.destroy
-    redirect_to @question
+    redirect_to @question.test
   end
 
   private

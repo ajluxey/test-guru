@@ -2,4 +2,10 @@
 <h3>The question is:</h3>
 <p><%= @question.body %></p>
 
+<h2>Answers</h2>
+<%= link_to "Create new answer", new_question_answer_path(@question) %>
+<ol>
+  <%= render @question.answers %>
+</ol>
+
 <%= link_to 'Back', @question.test %>

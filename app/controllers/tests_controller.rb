@@ -13,7 +13,8 @@ class TestsController < ApplicationController
   end
 
   def create
-    @test = Test.new(test_params)
+    author = User.first
+    @test = Test.new(test_params.merge author_id: author.id)
     if @test.save
       redirect_to @test
     else
@@ -31,7 +32,7 @@ class TestsController < ApplicationController
 
   def destroy
     @test.destroy
-    redirect_to tests_url
+    redirect_to tests_path
   end
 
   private

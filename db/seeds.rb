@@ -66,13 +66,20 @@ biba = User.create!(login: 'biba', password: 'qwerty')
 boba = User.create!(login: 'boba', password: 'qwerty')
 
 tests.each do |test|
-  user.started_tests << test
-  biba.started_tests << test
-  # UserStartTest.create!(user_id: user.id, test_id: test.id, passed: true)
-  # UserStartTest.create!(user_id: biba.id, test_id: test.id, passed: [true, false].sample)
-end
+  questions = test.questions.order(id: :desc)
+  current_question_index = rand(questions.count - 1)
 
-tests.sample(2).each do |test|
-  boba.started_tests << test
-  # UserStartTest.create!(user_id: boba.id, test_id: test.id, passed: [true, false].sample)
+  user.test_passages.create!(test: test, 
+                             current_question_id: nil, 
+                             correct_questions: questions.count)
+  biba.test_passages.create!(test: test, 
+                             current_question_id: questions[current_question_index].id, 
+                             correct_questions: rand(current_question_index))
+  
+  if [true, false].sample
+    current_question_index = rand(questions.count - 1)
+    boba.test_passages.create!(test: test, 
+                               current_question_id: questions[current_question_index].id, 
+                               correct_questions: rand(current_question_index))
+  end
 end

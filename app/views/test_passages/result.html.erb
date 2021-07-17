@@ -1,4 +1,4 @@
-<% if @test_passage.current_question.nil? %>
+<% if @test_passage.complited? %>
   <h1>Test <%= @test_passage.test.title %> complite!</h1>
   <h3>Your result is <%= color_result(@test_passage) %></h3>
   <h3><%= passage_message(@test_passage) %></h3>

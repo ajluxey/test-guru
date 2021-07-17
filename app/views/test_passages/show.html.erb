@@ -1,6 +1,7 @@
 <h1>Passing the <%= @test_passage.test.title %></h1>
 
 <b>
+  <%= question_numeration(@test_passage) %> Question: <br>
   <%= @test_passage.current_question.body %>
 </b>
 

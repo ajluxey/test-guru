@@ -10,6 +10,10 @@ module TestPassagesHelper
     end
   end
 
+  def question_numeration(test_passage)
+    "(#{test_passage.test.questions.order(:id).index(test_passage.current_question) + 1}/#{test_passage.test.questions.count})"
+  end
+
   def passage_message(test_passage)
     if calculate_result(test_passage) < PASSAGE_TRESHOLD
       'Sorry, test failed. Learn more and try again!'

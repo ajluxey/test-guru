@@ -48,8 +48,7 @@ class TestsController < ApplicationController
   end
 
   def test_params
-    # Автор - обязательный параметр, пока что ставлю 1, пока нет авторизации
-    params.require(:test).permit(:title, :level, :category_id).merge author_id: 1
+    params.require(:test).permit(:title, :level, :category_id)
   end
 
   def rescue_with_test_not_found

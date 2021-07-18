@@ -3,11 +3,11 @@ class Test < ApplicationRecord
   belongs_to :author, class_name: 'User'
   
   has_many :questions, dependent: :destroy
-  has_many :users_tests_progress,
+  has_many :test_passages,
            dependent: :destroy
 
   has_many :is_started_by_users,
-           through: :users_tests_progress,
+           through: :test_passages,
            source: :user
   
   scope :easy, -> { where(level: 0..1) }

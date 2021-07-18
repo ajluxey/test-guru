@@ -1,7 +1,4 @@
 class User < ApplicationRecord
-  attr_reader :password
-  attr_writer :password_confirmation
-
   has_many :created_tests,
            foreign_key: 'author_id',
            class_name: 'Test',
@@ -16,7 +13,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   validates :login, presence: true, uniqueness: true
-  # validates :password_digest, presence: true
+  validates :password_digest, presence: true
 
   has_secure_password
 

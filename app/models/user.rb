@@ -11,7 +11,11 @@ class User < ApplicationRecord
            through: :test_passages,
            source: :test
 
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true, 
+                    uniqueness: true, 
+                    format: { with: URI::MailTo::EMAIL_REGEXP,
+                              message: 'Incorrect Email' }
+                              
   validates :login, presence: true, uniqueness: true
   validates :password_digest, presence: true
 

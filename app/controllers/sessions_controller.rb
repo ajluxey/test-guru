@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-  skip_before_action :authenticate_user!, only: %i[new create]
+  skip_before_action :authenticate_user!, only: %i[new create close]
 
   def new
   end
@@ -16,4 +16,10 @@ class SessionsController < ApplicationController
       render :new
     end
   end
+
+  def close
+    session.delete(:user_id)
+    redirect_to root_path
+  end
+
 end

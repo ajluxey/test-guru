@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
   private
 
   def path_after_login
-    session[:return_to] || root_path
+    cookies.delete(:return_to) || root_path
   end
 
 end

@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_return_to
-    session[:return_to] = request.url
+    cookies[:return_to] = request.url
   end
 
 end

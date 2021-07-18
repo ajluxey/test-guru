@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   get 'login', to: 'sessions#new'
   get 'signup', to: 'users#new'
+
+  post 'logout', to: 'sessions#close'
   
   resources :users, only: :create
   resources :sessions, only: :create

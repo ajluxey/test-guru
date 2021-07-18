@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
 
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to tests_path
+      redirect_to path_after_login
     else
       flash.now[:alert] = 'Something wrong'
       render :new
@@ -20,6 +20,12 @@ class SessionsController < ApplicationController
   def close
     session.delete(:user_id)
     redirect_to root_path
+  end
+
+  private
+
+  def path_after_login
+    session[:return_to] || root_path
   end
 
 end

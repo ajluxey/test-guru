@@ -13,7 +13,8 @@ class TestsController < ApplicationController
   end
 
   def create
-    @test = Test.new(test_params.merge author_id: @current_user.id)
+    @test = Test.new(test_params)
+    @test.author = current_user
     if @test.save
       redirect_to @test
     else
@@ -35,8 +36,8 @@ class TestsController < ApplicationController
   end
 
   def start
-    @current_user.started_tests.push(@test)
-    redirect_to @current_user.test_passage(@test)
+    current_user.started_tests.push(@test)
+    redirect_to current_user.test_passage(@test)
   end
 
   private

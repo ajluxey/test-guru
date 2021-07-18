@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-  skip_before_action :authenticate_user!, only: %i[new create close]
+  skip_before_action :authenticate_user!, only: %i[new create destroy]
 
   def new
   end

@@ -2,7 +2,7 @@
 <h3>Category: <%= @test.category.title %>
 <h3>Level: <%= @test.level %></h3>
 
-<%= link_to 'Create new question for this test', new_test_question_url(@test) %>
+<%= link_to 'Create new question for this test', new_admin_test_question_url(@test) %>
 
 <table>
   <thead>
@@ -14,5 +14,5 @@
 
 </table>
 
-<%= link_to 'Edit', edit_admin_tests_path(@test) %>
+<%= link_to 'Edit', edit_admin_test_path(@test) %>
 <%= link_to 'Back', admin_tests_path %>

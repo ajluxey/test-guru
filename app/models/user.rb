@@ -1,4 +1,10 @@
 class User < ApplicationRecord
+  devise :database_authenticatable,
+         :registerable,
+         :recoverable,
+         :rememberable,
+         :validatable
+
   has_many :created_tests,
            foreign_key: 'author_id',
            class_name: 'Test',
@@ -11,15 +17,8 @@ class User < ApplicationRecord
            through: :test_passages,
            source: :test
 
-  validates :email, presence: true, 
-                    uniqueness: true, 
-                    format: { with: URI::MailTo::EMAIL_REGEXP,
-                              message: 'Incorrect Email' }
-                              
-  validates :login, presence: true, uniqueness: true
-  validates :password_digest, presence: true
-
-  has_secure_password
+  validates_presence_of   :login
+  validates_uniqueness_of :login
 
   # TODO: rework
   def get_passed_tests_with_level(level)

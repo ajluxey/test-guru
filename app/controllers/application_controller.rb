@@ -1,27 +1,20 @@
 class ApplicationController < ActionController::Base  
   
-  helper_method :current_user, :logged_in?
   before_action :authenticate_user!
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  protected
+
+	def configure_permitted_parameters
+		devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:email, :login, :password)}
+
+		devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:email, :login, :password, :current_password)}
+	end
 
   private
 
-  def authenticate_user!
-    unless current_user
-      store_return_to
-      redirect_to login_path, alert: 'Are you a Guru? Verify your Email and Password please'
-    end
-  end
-
-  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-
-  def logged_in?
-    @current_user.present?
-  end
-
-  def store_return_to
-    cookies[:return_to] = request.url
+  def after_sign_in_path_for(resource)
+    resource.is_a?(Admin) ? admin_tests_path : tests_path
   end
 
 end

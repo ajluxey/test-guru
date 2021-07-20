@@ -2,22 +2,22 @@
   <nav class="nav-bar">
     <ul>
       <li><%= link_to 'Test-Guru', root_path %></li>
-      <% if logged_in? %>
+      <% if user_signed_in? %>
         <li>
           Welcome, <%= current_user.login %> Guru!
         </li>
         <li>
           <%= link_to 'Logout',
-                      logout_path,
+                      destroy_user_session_path,
                       method: :delete,
                       data: { confirm: 'Are you sure?' } %>
         </li>
       <% else %>
         <li>
-          <%= link_to 'Sign up',  signup_path %>
+          <%= link_to 'Sign up',  new_user_registration_path %>
         </li>
         <li>
-          <%= link_to 'Sign in', login_path %>
+          <%= link_to 'Sign in', new_user_session_path %>
         </li>
       <% end %>
     </ul>

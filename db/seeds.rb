@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user = User.create!(login: 'ajluxey', password: 'qwerty')
+user = User.create!(email: 'v_koralina@list.ru', login: 'ajluxey', password: 'qwerty')
 categories = Category.create!([{ title: 'Ruby' }, { title: 'Алгоритмы' }])
 tests = Test.create!([{ title: 'Основы Ruby', category: categories[0], author: user },
                       { title: 'Сортировки', level: 2, category: categories[1], author: user },
@@ -62,8 +62,8 @@ Answer.create!([{ body: 'Да', correct: true, question: questions_s[3] },
 Answer.create!([{ body: 'С помощью программ и алгоритмов', correct: true, question: questions_s[4] },
                 { body: 'Руками со всей силы', question: questions_s[4] }])
 
-biba = User.create!(login: 'biba', password: 'qwerty')
-boba = User.create!(login: 'boba', password: 'qwerty')
+biba = User.create!(email: 'biba@mail.ru', login: 'biba', password: 'qwerty')
+boba = User.create!(email: 'boba@mail.ru', login: 'boba', password: 'qwerty')
 
 tests.each do |test|
   questions = test.questions.order(id: :desc)

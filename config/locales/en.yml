@@ -34,5 +34,5 @@ en:
 
   test_passages:
     gist:
-      success: "Gist was successfully created!"
+      success: "Gist was successfully created! Link: "
       failure: "An error occurred while saving gist"

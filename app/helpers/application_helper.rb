@@ -9,4 +9,11 @@ module ApplicationHelper
     Time.current.year
   end
 
+  def flash_messages
+    content_tag :div do
+      flash.collect do |key, message|
+        concat content_tag :p, message, class: "flash #{key}"
+      end
+    end
+  end
 end

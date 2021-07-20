@@ -6,6 +6,7 @@ class TestsController < ApplicationController
 
   def index
     @tests = Test.all
+    flash.alert = "Test message"
   end
 
   def start

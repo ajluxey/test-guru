@@ -1,6 +1,6 @@
 class GitHubClient
   
-  ACCESS_TOKEN = ENV['TESTGURU_TOKEN']
+  ACCESS_TOKEN = Rails.application.credentials.github_gists_token
 
   def initialize
     @client = Octokit::Client.new(access_token: ACCESS_TOKEN)

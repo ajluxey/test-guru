@@ -1,7 +1,7 @@
 ru:
   hello: "Привет мир"
 
-  test_passages:
-    gist:
-      success: "Gist успешно сохранен! Ссылка: "
+  gists:
+    create:
+      success: "Gist успешно сохранен! Ссылка: %{link}"
       failure: "Во время сохранения gist произошла ошибка"

@@ -8,6 +8,8 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
+import "utilities/sorting"
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()

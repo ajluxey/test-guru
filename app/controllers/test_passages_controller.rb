@@ -1,11 +1,8 @@
 class TestPassagesController < ApplicationController
   
-  before_action :find_test_passage, only: %i[show result update]
+  before_action :find_test_passage, only: %i[show update result gist]
 
   def show
-  end
-
-  def result
   end
 
   def update
@@ -16,6 +13,9 @@ class TestPassagesController < ApplicationController
     else
       render :show
     end
+  end
+
+  def result
   end
 
   private

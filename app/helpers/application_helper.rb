@@ -12,7 +12,7 @@ module ApplicationHelper
   def flash_messages
     content_tag :div do
       flash.collect do |key, message|
-        concat content_tag :p, message, class: "flash #{key}"
+        concat content_tag :p, message.html_safe, class: "flash #{key}"
       end
     end
   end

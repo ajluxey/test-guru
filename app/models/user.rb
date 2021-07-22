@@ -17,6 +17,8 @@ class User < ApplicationRecord
            through: :test_passages,
            source: :test
 
+  has_many :gists
+
   validates_presence_of   :login
   validates_uniqueness_of :login
 

@@ -1,2 +1,7 @@
 ru:
   hello: "Привет мир"
+
+  gists:
+    create:
+      success: "Gist успешно сохранен! Ссылка: %{link}"
+      failure: "Во время сохранения gist произошла ошибка"

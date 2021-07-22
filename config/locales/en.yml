@@ -31,3 +31,8 @@
 
 en:
   hello: "Hello world"
+
+  gists:
+    create:
+      success: "Gist was successfully created! Link: %{link}"
+      failure: "An error occurred while saving gist"

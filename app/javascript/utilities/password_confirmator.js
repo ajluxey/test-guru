@@ -1,80 +1,79 @@
 document.addEventListener('turbolinks:load', () => {
-  let form = document.querySelector('.with-password-confirmation');
-  if (form) new FormWithPasswordConfirmation(form);
-});
+  const form = document.querySelector('.with-password-confirmation')
+  if (form) new FormWithPasswordConfirmation(form)
+})
 
+export class FormWithPasswordConfirmation {
+  constructor (form) {
+    this.form = form
+    this.passwordField = null
+    this.confirmationField = null
 
-class FormWithPasswordConfirmation {
-  constructor(form) {
-    this.form = form;
-    this.passwordField = null;
-    this.confirmationField = null;
-
-    this.parseForm();
-    this.addInputListeners();
+    this.parseForm()
+    this.addInputListeners()
   }
 
-  parseForm() {
-    let inputs = this.form.querySelectorAll('input[type="password"]');
-    let tmp = []
-    inputs.forEach((inputField) => tmp.push(new PasswordInput(inputField)));
-    [this.passwordField, this.confirmationField] = tmp;
+  parseForm () {
+    const inputs = this.form.querySelectorAll('input[type="password"]')
+    const tmp = []
+    inputs.forEach((inputField) => tmp.push(new PasswordInput(inputField)))
+    [this.passwordField, this.confirmationField] = tmp
   }
 
-  addInputListeners() {
-    this.passwordField.inputField.addEventListener('input', this.confirmation.bind(this));
-    this.confirmationField.inputField.addEventListener('input', this.confirmation.bind(this));
+  addInputListeners () {
+    this.passwordField.inputField.addEventListener('input', this.confirmation.bind(this))
+    this.confirmationField.inputField.addEventListener('input', this.confirmation.bind(this))
   }
 
-  confirmation() {
+  confirmation () {
     if (this.confirmationField.getValue()) {
       if (this.passwordField.getValue() === this.confirmationField.getValue()) {
-        this.confirmationSuccessful();
+        this.confirmationSuccessful()
       } else {
-        this.confirmationFailed();
+        this.confirmationFailed()
       }
     } else {
-      this.withoutConfirmation();
+      this.withoutConfirmation()
     }
   }
 
-  confirmationFailed() {
-    this.passwordField.setRedBorder();
-    this.confirmationField.setRedBorder();
+  confirmationFailed () {
+    this.passwordField.setRedBorder()
+    this.confirmationField.setRedBorder()
   }
 
-  confirmationSuccessful() {
-    this.passwordField.setGreenBorder();
-    this.confirmationField.setGreenBorder();
+  confirmationSuccessful () {
+    this.passwordField.setGreenBorder()
+    this.confirmationField.setGreenBorder()
   }
 
-  withoutConfirmation() {
-    this.passwordField.defaultBorder();
-    this.confirmationField.defaultBorder();
+  withoutConfirmation () {
+    this.passwordField.defaultBorder()
+    this.confirmationField.defaultBorder()
   }
 }
 
-class PasswordInput {
-  constructor(inputField) {
+export class PasswordInput {
+  constructor (inputField) {
     this.inputField = inputField
   }
 
-  getValue() {
+  getValue () {
     return this.inputField.value
   }
 
-  setRedBorder() {
-    this.inputField.classList.remove('border-success');
-    this.inputField.classList.add('border-danger');
+  setRedBorder () {
+    this.inputField.classList.remove('border-success')
+    this.inputField.classList.add('border-danger')
   }
 
-  setGreenBorder() {
-    this.inputField.classList.remove('border-danger');
-    this.inputField.classList.add('border-success');
+  setGreenBorder () {
+    this.inputField.classList.remove('border-danger')
+    this.inputField.classList.add('border-success')
   }
 
-  defaultBorder() {
-    this.inputField.classList.remove('border-danger');
-    this.inputField.classList.remove('border-success');
+  defaultBorder () {
+    this.inputField.classList.remove('border-danger')
+    this.inputField.classList.remove('border-success')
   }
 }

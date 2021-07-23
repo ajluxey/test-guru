@@ -1,26 +1,80 @@
 document.addEventListener('turbolinks:load', () => {
   let form = document.querySelector('.with-password-confirmation');
-  
-  if (form) {
-    let [password, password_confirmation] = form.querySelectorAll('input[type="password"]');
-    password.addEventListener('input', () => { confirmator(password, password_confirmation) });
-    password_confirmation.addEventListener('input', () => { confirmator(password, password_confirmation) });
-  }
+  if (form) new FormWithPasswordConfirmation(form);
 });
 
 
-function confirmator(password, password_confirmation){
-  if (password_confirmation.value) {
-    let status =  password.value == password_confirmation.value;
-    setBorderColorTo(password, status);
-    setBorderColorTo(password_confirmation, status);
+class FormWithPasswordConfirmation {
+  constructor(form) {
+    this.form = form;
+    this.passwordField = null;
+    this.confirmationField = null;
+
+    this.parseForm();
+    this.addInputListeners();
+  }
+
+  parseForm() {
+    let inputs = this.form.querySelectorAll('input[type="password"]');
+    let tmp = []
+    inputs.forEach((inputField) => tmp.push(new PasswordInput(inputField)));
+    [this.passwordField, this.confirmationField] = tmp;
+  }
+
+  addInputListeners() {
+    this.passwordField.inputField.addEventListener('input', this.confirmation.bind(this));
+    this.confirmationField.inputField.addEventListener('input', this.confirmation.bind(this));
+  }
+
+  confirmation() {
+    if (this.confirmationField.getValue()) {
+      if (this.passwordField.getValue() === this.confirmationField.getValue()) {
+        this.confirmationSuccessful();
+      } else {
+        this.confirmationFailed();
+      }
+    } else {
+      this.withoutConfirmation();
+    }
+  }
+
+  confirmationFailed() {
+    this.passwordField.setRedBorder();
+    this.confirmationField.setRedBorder();
+  }
+
+  confirmationSuccessful() {
+    this.passwordField.setGreenBorder();
+    this.confirmationField.setGreenBorder();
+  }
+
+  withoutConfirmation() {
+    this.passwordField.defaultBorder();
+    this.confirmationField.defaultBorder();
   }
 }
 
-function setBorderColorTo(input_field, status) {
-  let classByStatus = { true: 'border-success',
-                        false: 'border-danger' }
+class PasswordInput {
+  constructor(inputField) {
+    this.inputField = inputField
+  }
 
-  input_field.classList.remove(classByStatus[!status]);
-  input_field.classList.add(classByStatus[status]);
+  getValue() {
+    return this.inputField.value
+  }
+
+  setRedBorder() {
+    this.inputField.classList.remove('border-success');
+    this.inputField.classList.add('border-danger');
+  }
+
+  setGreenBorder() {
+    this.inputField.classList.remove('border-danger');
+    this.inputField.classList.add('border-success');
+  }
+
+  defaultBorder() {
+    this.inputField.classList.remove('border-danger');
+    this.inputField.classList.remove('border-success');
+  }
 }

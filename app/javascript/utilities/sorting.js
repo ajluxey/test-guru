@@ -17,8 +17,7 @@ export class TableWithSort {
   clearHeadersOtherThan (header) {
     this.sorterHeaders.forEach((anotherHeader) => {
       if (anotherHeader !== header) {
-        anotherHeader.querySelector('.octicon-arrow-up').classList.add('hide')
-        anotherHeader.querySelector('.octicon-arrow-down').classList.add('hide')
+        anotherHeader.hideArrows()
       }
     })
   }
@@ -38,12 +37,10 @@ export class SorterHeader {
     let sortedRows = Array.from(rows)
     if (this.headerInHtml.querySelector('.octicon-arrow-up').classList.contains('hide')) {
       sortedRows.sort(this.compareRowsAsc.bind(this))
-      this.headerInHtml.querySelector('.octicon-arrow-up').classList.remove('hide')
-      this.headerInHtml.querySelector('.octicon-arrow-down').classList.add('hide')
+      this.setUpArrow()
     } else {
       sortedRows.sort(this.compareRowsDesc.bind(this))
-      this.headerInHtml.querySelector('.octicon-arrow-up').classList.add('hide')
-      this.headerInHtml.querySelector('.octicon-arrow-down').classList.remove('hide')
+      this.setDownArrow();
     }
     let sortedTableContent = document.createElement('tbody')
     sortedRows.forEach(tr => sortedTableContent.appendChild(tr))
@@ -62,4 +59,19 @@ export class SorterHeader {
   compareRowsDesc (row1, row2) {
     return this.compareRowsAsc(row1, row2) * -1
   }
+
+  setUpArrow() {
+    this.headerInHtml.querySelector('.octicon-arrow-up').classList.remove('hide')
+    this.headerInHtml.querySelector('.octicon-arrow-down').classList.add('hide')
+  }
+
+  setDownArrow() {
+    this.headerInHtml.querySelector('.octicon-arrow-up').classList.add('hide')
+    this.headerInHtml.querySelector('.octicon-arrow-down').classList.remove('hide')
+  }
+
+  hideArrows () {
+    this.headerInHtml.querySelector('.octicon-arrow-up').classList.add('hide')
+    this.headerInHtml.querySelector('.octicon-arrow-down').classList.add('hide')
+  } 
 }

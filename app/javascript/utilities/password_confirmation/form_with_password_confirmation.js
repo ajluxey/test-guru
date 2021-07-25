@@ -1,7 +1,4 @@
-document.addEventListener('turbolinks:load', () => {
-  const form = document.querySelector('.with-password-confirmation')
-  if (form) new FormWithPasswordConfirmation(form)
-})
+import PasswordInput from "./password_input"
 
 export class FormWithPasswordConfirmation {
   constructor (form) {
@@ -50,30 +47,5 @@ export class FormWithPasswordConfirmation {
   withoutConfirmation () {
     this.passwordField.defaultBorder()
     this.confirmationField.defaultBorder()
-  }
-}
-
-export class PasswordInput {
-  constructor (inputField) {
-    this.inputField = inputField
-  }
-
-  getValue () {
-    return this.inputField.value
-  }
-
-  setRedBorder () {
-    this.inputField.classList.remove('border-success')
-    this.inputField.classList.add('border-danger')
-  }
-
-  setGreenBorder () {
-    this.inputField.classList.remove('border-danger')
-    this.inputField.classList.add('border-success')
-  }
-
-  defaultBorder () {
-    this.inputField.classList.remove('border-danger')
-    this.inputField.classList.remove('border-success')
   }
 }

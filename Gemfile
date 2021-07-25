@@ -33,6 +33,11 @@ gem 'devise', '~> 4.0'
 
 gem 'octokit', '~> 4.0'
 
+# UI
+
+gem 'bootstrap', '~> 4.0.0.beta'
+gem 'octicons_helper' 
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 

@@ -1,28 +1,3 @@
-document.addEventListener('turbolinks:load', () => {
-  const tables = document.querySelectorAll('table')
-  tables.forEach((table) => {
-    const sorterHeaders = table.querySelectorAll('.sort-by-this')
-    if (sorterHeaders) new TableWithSort(table, sorterHeaders)
-  })
-})
-
-export class TableWithSort {
-  constructor (table, sorterHeaders) {
-    this.tableInHtml = table
-    this.content = table.querySelector('tbody')
-    this.sorterHeaders = []
-    sorterHeaders.forEach((sorterHeader) => this.sorterHeaders.push(new SorterHeader(sorterHeader, this)))
-  }
-
-  clearHeadersOtherThan (header) {
-    this.sorterHeaders.forEach((anotherHeader) => {
-      if (anotherHeader !== header) {
-        anotherHeader.hideArrows()
-      }
-    })
-  }
-}
-
 export class SorterHeader {
   constructor (header, table) {
     this.headerInHtml = header

@@ -6,7 +6,7 @@ export default class SorterHeader {
   }
 
   sortRow () {
-    this.table.clearHeadersOtherThan(this.headerInHtml)
+    this.table.clearHeadersOtherThan(this)
 
     const rows = this.table.content.querySelectorAll('tr')
     let sortedRows = Array.from(rows)
@@ -15,7 +15,7 @@ export default class SorterHeader {
       this.setUpArrow()
     } else {
       sortedRows.sort(this.compareRowsDesc.bind(this))
-      this.setDownArrow();
+      this.setDownArrow()
     }
     let sortedTableContent = document.createElement('tbody')
     sortedRows.forEach(tr => sortedTableContent.appendChild(tr))
@@ -25,7 +25,7 @@ export default class SorterHeader {
 
   compareRowsAsc (row1, row2) {
     const testTitle1 = row1.querySelectorAll('td').item(this.headerInHtml.cellIndex).textContent
-    const testTitle2 = row2.querySelectorAll('td').item(this.headerInHtml.cellIndex).textConten
+    const testTitle2 = row2.querySelectorAll('td').item(this.headerInHtml.cellIndex).textContent
     if (testTitle1 < testTitle2) { return -1 }
     if (testTitle1 > testTitle2) { return 1 }
     return 0

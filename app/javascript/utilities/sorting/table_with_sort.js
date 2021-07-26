@@ -1,6 +1,6 @@
-import SorterHeader from "./sorter_header"
+import SorterHeader from './sorter_header';
 
-export class TableWithSort {
+export default class TableWithSort {
   constructor (table, sorterHeaders) {
     this.tableInHtml = table
     this.content = table.querySelector('tbody')

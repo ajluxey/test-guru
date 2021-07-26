@@ -1,10 +1,10 @@
-<% if model_instance.errors.present? %>
-  <div>
+<% if model_instance.present? && model_instance.errors.present? %>
+  <%= content_tag :div, class: 'model-instance-errors', data: { model_instance_id: model_instance.id } do %>
     <h2><%= pluralize(model_instance.errors.count, 'error') %> detected:</h2>
     <ul>
       <% model_instance.errors.full_messages.each do |message| %>
         <li><%= message %>
       <% end %>
     </ul>
-  <div>
+  <% end %>
 <% end %>

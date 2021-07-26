@@ -1,4 +1,4 @@
-export class SorterHeader {
+export default class SorterHeader {
   constructor (header, table) {
     this.headerInHtml = header
     this.table = table

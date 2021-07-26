@@ -1,4 +1,4 @@
-export class PasswordInput {
+export default class PasswordInput {
   constructor (inputField) {
     this.inputField = inputField
   }

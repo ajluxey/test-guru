@@ -1,4 +1,4 @@
-import TableWithSort from "./table_with_sort"
+import TableWithSort from './table_with_sort';
 
 document.addEventListener('turbolinks:load', () => {
   const tables = document.querySelectorAll('table')

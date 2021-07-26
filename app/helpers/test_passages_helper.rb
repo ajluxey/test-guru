@@ -9,7 +9,16 @@ module TestPassagesHelper
   end
 
   def question_numeration(test_passage)
-    "(#{test_passage.test.questions.order(:id).index(test_passage.current_question) + 1}/#{test_passage.test.questions.count})"
+    current_question_index = test_passage.test.questions.order(:id).index(test_passage.current_question) + 1
+    current_question_index = content_tag :span,
+                                         current_question_index,
+                                         class: "current-progress",
+                                         data: { test_passage_id: test_passage.id } 
+    questiions_count = content_tag :span,
+                                   test_passage.test.questions.count,
+                                   class: "full-progress",
+                                   data: { test_passage_id: test_passage.id } 
+    "(#{current_question_index}/#{questiions_count})".html_safe
   end
 
   def passage_message(test_passage)

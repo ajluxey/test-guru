@@ -16,7 +16,7 @@ class ProgressBar {
   findParametrs () {
     const currentProgress = document.querySelector(`.current-progress[data-test-passage-id="${this.testPassageId}"]`)
     const fullProgress = document.querySelector(`.full-progress[data-test-passage-id="${this.testPassageId}"]`)
-    this.currentProgress = parseInt(currentProgress.innerHTML)
+    this.currentProgress = parseInt(currentProgress.innerHTML) - 1
     this.fullProgress = parseInt(fullProgress.innerHTML)
   }
 

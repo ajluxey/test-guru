@@ -1,5 +1,5 @@
 document.addEventListener('turbolinks:load', () => {
-  let progressBar = document.querySelector('.progress')
+  const progressBar = document.querySelector('.progress')
   if (progressBar) new ProgressBar(progressBar)
 })
 

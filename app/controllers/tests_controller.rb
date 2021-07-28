@@ -9,8 +9,9 @@ class TestsController < ApplicationController
   end
 
   def start
-    current_user.started_tests.push(@test)
-    redirect_to current_user.test_passage(@test)
+    test_passage = current_user.test_passage(@test)
+    test_passage = current_user.test_passages.create(test: @test) if !test_passage.present? || test_passage.complited?
+    redirect_to test_passage
   end
 
   private

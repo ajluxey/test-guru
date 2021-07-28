@@ -1,6 +1,6 @@
-import PasswordInput from "./password_input"
+import PasswordInput from './password_input';
 
-export class FormWithPasswordConfirmation {
+export default class FormWithPasswordConfirmation {
   constructor (form) {
     this.form = form
     this.passwordField = null

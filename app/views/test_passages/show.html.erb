@@ -1,4 +1,10 @@
 <h1>Passing the <%= @test_passage.test.title %></h1>
+<%= content_tag :div, class: "progress", data: { test_passage_id: @test_passage.id } do %>
+  <%= content_tag :div,
+                  '',
+                  class: "progress-bar bg-success",
+                  data: { test_passage_id: @test_passage.id } %>
+<% end %>
 
 <b>
   <%= question_numeration(@test_passage) %> Question: <br>

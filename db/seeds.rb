@@ -6,7 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user = User.create!(email: 'v_koralina@list.ru', login: 'ajluxey', password: 'qwerty')
+user = User.create!(email: 'v_koralina@list.ru',
+                    login: 'ajluxey',
+                    password: 'qwerty',
+                    type: 'Admin',
+                    first_name: 'Alesha',
+                    last_name: "Aliheev")
 categories = Category.create!([{ title: 'Ruby' }, { title: 'Алгоритмы' }])
 tests = Test.create!([{ title: 'Основы Ruby', category: categories[0], author: user },
                       { title: 'Сортировки', level: 2, category: categories[1], author: user },
@@ -82,4 +87,24 @@ tests.each do |test|
                                current_question_id: questions[current_question_index].id, 
                                correct_questions: rand(current_question_index))
   end
+
+  # Badges
+  rules = Specifications::Badges::RULES
+  Badge.create!(title: "First Try!",
+                description: rules[:first_try][:description],
+                rule: :first_try,
+                image_path: "./")
+  
+  ruby_category = categories[0]
+  Badge.create!(title: "#{ruby_category.title} guru!", 
+                description: "#{rules[:passed_all_tests_by_category][:description]} #{ruby_category.title}",
+                rule: :passed_all_tests_by_category,
+                rule_value: ruby_category.id,
+                image_path: "./")
+  
+  Badge.create!(title: "Guru lvl. 1",
+                description: "#{rules[:passed_all_tests_by_level][:description]} 1",
+                rule: :passed_all_tests_by_level,
+                rule_value: 1,
+                image_path: "./")
 end

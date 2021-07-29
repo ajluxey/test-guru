@@ -5,14 +5,15 @@ class BadgeManagerService
 
   def initialize(test_passage)
     @test_passage = test_passage
+    check_and_award
   end
 
   private
 
   def check_and_award
     Badge.all.each do |badge|
-      rule_checker = Specifications::Badges::RULES[badge.rule].call(@test_passage, badge.rule, badge.rule_value)
-      current_user.badges << badge if rule_checker.satisfied_with?(@test_passage) 
+      rule_checker = Specifications::Badges::RULES[badge.rule][:rule_checker].new(badge.rule, badge.rule_value)
+      @test_passage.user.badges << badge if rule_checker.satisfied_with?(@test_passage) 
     end
   end
 end

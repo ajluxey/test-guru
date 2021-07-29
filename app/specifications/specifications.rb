@@ -1,17 +1,25 @@
 module Specifications
   module Badges
-    class AbstractRule
+    # RULES contain descriprions and classes that check implementations of the rules
+    RULES = { first_try:                    { description: "Succesfully pass the test by first try",
+                                              rule_checker: nil },
+              passed_all_tests_by_category: { description: "Successfully pass all tests by category",
+                                              rule_checker: nil },
+              passed_all_tests_by_level:    { description: "Successfully pass all test with level",
+                                              rule_checker: nil } }
+
+    class AbstractRuleChecker
       def initialize(rule, rule_value)
         @rule = rule
         @rule_value = rule_value
       end
 
       def satisfied_with?(test_passage)
-        test_passage.successfuly_passed?
+        test_passage.successfully_passed?
       end
     end
 
-    class PassedAllTestsBySomeRule < AbstractRule
+    class PassedAllTestsBySomeCondition < AbstractRuleChecker
       def satisfied_with?(test_passage, where_arguments)
         return false unless super
 
@@ -33,7 +41,7 @@ module Specifications
       end
     end
 
-    class FirstTryRule < AbstractRule
+    class FirstTry < AbstractRuleChecker
       def satisfied_with?(test_passage)
         if super(test_passage)
           TestPassage.where(user: test_passage.user, test: test_passage.test).count == 1
@@ -43,10 +51,12 @@ module Specifications
       end
     end
 
-    class PassedAllTestsByCategoryRule < PassedAllTestsBySomeRule
+    RULES[:first_try][:rule_checker] = FirstTry
+
+    class PassedAllTestsByCategory < PassedAllTestsBySomeCondition
       def satisfied_with?(test_passage)
         # ниже подозрительная строка
-        if @rule_value != test_passage.test.category
+        if @rule_value == test_passage.test.category.id
           super(test_passage, { test: Test.where(category: test_passage.test.category) })
         else
           false
@@ -54,7 +64,9 @@ module Specifications
       end
     end
 
-    class PassedAllTestsByLevelRule < PassedAllTestsBySomeRule
+    RULES[:passed_all_tests_by_category][:rule_checker] = PassedAllTestsByCategory
+
+    class PassedAllTestsByLevel < PassedAllTestsBySomeCondition
       def satisfied_with?
         if @rule_value.to_i != test_passage.test.level
           super(test_passage, { test: Test.where(level: @rule_value) })
@@ -64,10 +76,8 @@ module Specifications
       end
     end
 
+    RULES[:passed_all_tests_by_level][:rule_checker] = PassedAllTestsByLevel
 
-    RULES = { first_try: FirstTryRule,
-      passed_all_tests_by_category: PassedAllTestsByCategoryRule,
-      passed_all_tests_by_level: PassedAllTestsByLevelRule }.freeze
-
+    RULES.freeze
   end
 end

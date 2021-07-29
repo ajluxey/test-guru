@@ -18,6 +18,7 @@ class User < ApplicationRecord
            source: :test
 
   has_many :gists
+  has_and_belongs_to_many :badges, join_table: :users_badges
 
   validates_presence_of   :login
   validates_uniqueness_of :login

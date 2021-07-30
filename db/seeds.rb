@@ -87,24 +87,24 @@ tests.each do |test|
                                current_question_id: questions[current_question_index].id, 
                                correct_questions: rand(current_question_index))
   end
-
-  # Badges
-  rules = Specifications::Badges::RULES
-  Badge.create!(title: "First Try!",
-                description: rules[:first_try][:description],
-                rule: :first_try,
-                image_path: "./")
-  
-  ruby_category = categories[0]
-  Badge.create!(title: "#{ruby_category.title} guru!", 
-                description: "#{rules[:passed_all_tests_by_category][:description]} #{ruby_category.title}",
-                rule: :passed_all_tests_by_category,
-                rule_value: ruby_category.id,
-                image_path: "./")
-  
-  Badge.create!(title: "Guru lvl. 1",
-                description: "#{rules[:passed_all_tests_by_level][:description]} 1",
-                rule: :passed_all_tests_by_level,
-                rule_value: 1,
-                image_path: "./")
 end
+
+# Badges
+rules = Specifications::Badges::RULES
+Badge.create!(title: "First Try!",
+              description: rules[:first_try][:description],
+              rule: :first_try,
+              image_path: "https://www.pngjoy.com/pngm/432/7887657_1-aito-cumpleaos-animated-numbers-1-10-hd.png")
+
+ruby_category = categories[0]
+Badge.create!(title: "#{ruby_category.title} guru!", 
+              description: "#{rules[:passed_all_tests_by_category][:description]} #{ruby_category.title}",
+              rule: :passed_all_tests_by_category,
+              rule_value: ruby_category.id,
+              image_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Ruby_logo.svg/1200px-Ruby_logo.svg.png")
+
+Badge.create!(title: "Guru lvl. 1",
+              description: "#{rules[:passed_all_tests_by_level][:description]} 1",
+              rule: :passed_all_tests_by_level,
+              rule_value: 1,
+              image_path: "https://www.seekpng.com/png/detail/237-2376706_copy-level-1-clipart.png")

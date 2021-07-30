@@ -1,12 +1,10 @@
 module Specifications
   module Badges
-    # RULES contain descriprions and classes that check implementations of the rules
-    RULES = { first_try:                    { description: "Succesfully pass the test by first try",
-                                              rule_checker: nil },
+    RULES = { first_try:                    { description: "Succesfully pass the test by first try" },
               passed_all_tests_by_category: { description: "Successfully pass all tests by category",
-                                              rule_checker: nil },
+                                              select_arguements: [Category.all, :id, :title] },
               passed_all_tests_by_level:    { description: "Successfully pass all test with level",
-                                              rule_checker: nil } }
+                                              select_arguements: [Test.all.pluck(:level).uniq, :to_s, :to_s] } }
 
     class AbstractRuleChecker
       def initialize(rule, rule_value)
@@ -17,24 +15,26 @@ module Specifications
       def satisfied_with?(test_passage)
         test_passage.successfully_passed?
       end
+
+      def complited_tests_after_event_start
+        event_start = Badge.find_by(rule: @rule, rule_value: @rule_value).updated_at
+        TestPassage.where(current_question: nil, updated_at: event_start..Time.current)
+      end
     end
 
     class PassedAllTestsBySomeCondition < AbstractRuleChecker
       def satisfied_with?(test_passage, where_arguments)
-        return false unless super
-
-        event_start = Badges.find_by(rule: @rule, rule_value: @rule_value).updated_at
-        test_passages_after_badge_update = TestPassage.where(user: test_passage.current_user,
-                                                            current_question: nil,
-                                                            updated_at: event_start..Time.current)
-        # add scope to name
-        test_passages_by_some_rule = test_passages_after_badge_update.where(where_arguments)
-        if test_passages_by_some_rule.count > 0
-          successfully_passed_counts = Array.new(0, test_passages_by_some_rule.count)
-          test_passages_by_same_category.each_with_index do |tp, index|
-            successfully_passed_counts[index] += 1 if tp.successfully_passed?
+        return false unless super(test_passage)
+        
+        successfully_passed_counts = Hash[where_arguments[:test].collect { |test| [test.id, 0]}]
+        where_arguments.merge!(user: test_passage.user)
+        complited_tests_by_some_rule = complited_tests_after_event_start.where(where_arguments)
+        if complited_tests_by_some_rule.count > 0
+          complited_tests_by_some_rule.each do |tp|
+            successfully_passed_counts[tp.test.id] += 1 if tp.successfully_passed?
           end
-          successfully_passed_counts.all
+          user_this_badge_count = test_passage.user.badges.where(rule: @rule).count
+          successfully_passed_counts.values.all? { |count| count - user_this_badge_count > 0 }
         else
           false
         end
@@ -56,7 +56,7 @@ module Specifications
     class PassedAllTestsByCategory < PassedAllTestsBySomeCondition
       def satisfied_with?(test_passage)
         # ниже подозрительная строка
-        if @rule_value == test_passage.test.category.id
+        if @rule_value.to_i == test_passage.test.category.id
           super(test_passage, { test: Test.where(category: test_passage.test.category) })
         else
           false
@@ -67,8 +67,8 @@ module Specifications
     RULES[:passed_all_tests_by_category][:rule_checker] = PassedAllTestsByCategory
 
     class PassedAllTestsByLevel < PassedAllTestsBySomeCondition
-      def satisfied_with?
-        if @rule_value.to_i != test_passage.test.level
+      def satisfied_with?(test_passage)
+        if @rule_value.to_i == test_passage.test.level
           super(test_passage, { test: Test.where(level: @rule_value) })
         else
           false

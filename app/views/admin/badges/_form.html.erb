@@ -1,0 +1,34 @@
+<%= form_with model: [:admin, @badge], class: "form-control" do |form| %>
+  <%= render 'shared/errors', model_instance: @badge %>
+
+  <div class="field">
+    <%= form.label :title %><br />
+    <%= form.text_field :title, id: :test_title %>
+  </div>
+
+
+  <%= form.collection_radio_buttons :rule, @rules, :key, :description do |rule| %>
+    <div class="field">
+      <%= rule.radio_button %>
+      <%= rule.label %>
+
+      <% if rule.object.select_arguements.present? %>
+        <%= form.collection_select rule.object.key,
+                                   *rule.object.select_arguements,
+                                   { prompt: true,
+                                     selected: @badge.rule == rule.object.key ? @badge.rule_value : nil }, 
+                                   { id: "#{rule.object.key}_rule_value" } %>
+      <% end %>  
+    </div>
+  <% end %> 
+
+  <div class="field">
+    <%= form.label :image_path %><br />
+    <%= form.text_field :image_path, id: :badge_image_path %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

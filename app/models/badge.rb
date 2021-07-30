@@ -5,7 +5,7 @@ class Badge < ApplicationRecord
   validates :description, presence: true
   validates :rule, presence: true
   validate  :validate_rule_is_available
-  # validates :image_path, presence: true, format: { with: /*/ }
+  validates :image_path, presence: true, format: { with: URI::regexp }
 
   def self.available_rules
     Specifications::Badges::RULES.keys

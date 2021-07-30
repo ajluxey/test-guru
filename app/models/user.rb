@@ -31,6 +31,10 @@ class User < ApplicationRecord
         .where(level: level)
   end
 
+  def has_badges?
+    badges.count > 0
+  end
+
   # method which return last attempt to pass test
   def test_passage(test)
     test_passages.order(id: :desc).find_by(test_id: test.id)

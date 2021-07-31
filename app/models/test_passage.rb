@@ -4,7 +4,7 @@ class TestPassage < ApplicationRecord
   belongs_to :current_question, class_name: 'Question', optional: true
 
   before_validation :before_validation_set_first_question, on: :create
-  before_validation :before_validation_set_next_question, on: :update
+  before_validation :before_validation_set_next_question, on: :update, if: -> { still_have_time? }
 
   PASSAGE_TRESHOLD = 85
 
@@ -29,6 +29,16 @@ class TestPassage < ApplicationRecord
     else
       0
     end
+  end
+
+  def still_have_time?
+    return true unless test.with_timer?
+    created_at + test.time_to_pass_duration > Time.current
+  end
+
+  def finish!
+    self.current_question = nil
+    save
   end
 
   private

@@ -14,6 +14,7 @@ class Admin::TestsController < Admin::BaseController
 
   def create
     @test = current_user.created_tests.build(test_params)
+    byebug
     if @test.save
       redirect_to [:admin, @test]
     else
@@ -53,7 +54,15 @@ class Admin::TestsController < Admin::BaseController
   end
 
   def test_params
-    params.require(:test).permit(:title, :level, :category_id)
+    all = (1..6)
+    hours_mins_secs = (4..6)
+    datetime_keys = -> (range) { range.map { |i| "time_to_pass(#{i}i)".to_s } }
+
+    if params.require(:test).slice(*datetime_keys.call(hours_mins_secs)).values.all?(&:empty?)
+      datetime_keys.call(all).each { |key| params[:test].delete(key) }
+      params[:test][:time_to_pass] = nil
+    end
+    params.require(:test).permit(:title, :level, :category_id, :time_to_pass)
   end
 
   def rescue_with_test_not_found

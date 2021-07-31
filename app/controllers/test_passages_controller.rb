@@ -6,7 +6,11 @@ class TestPassagesController < ApplicationController
   end
 
   def update
-    @test_passage.accept!(params[:answer_ids])
+    if @test_passage.still_have_time?
+      @test_passage.accept!(params[:answer_ids])
+    else
+      @test_passage.finish!
+    end
     if @test_passage.complited?
       TestsMailer.complited_test(@test_passage).deliver_now
       redirect_to result_test_passage_path(@test_passage)

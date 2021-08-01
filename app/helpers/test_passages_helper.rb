@@ -30,10 +30,12 @@ module TestPassagesHelper
   end
 
   def time_limit(test_passage)
-    time_left = test_passage.time_left
-    content_tag :div, class: "test-timer", data: { test_passage_id: @test_passage.id } do
-      hidden_field_tag("time-limit", time_left, class: "time-limit") +
-      content_tag(:p, time_left, class: "current-time-limit")
+    if test_passage.test.with_timer?
+      time_left = test_passage.time_left
+      content_tag :div, class: "test-timer", data: { test_passage_id: @test_passage.id } do
+        hidden_field_tag("time-limit", time_left, class: "time-limit") +
+        content_tag(:p, time_left, class: "current-time-limit")
+      end
     end
   end
 end

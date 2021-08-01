@@ -31,9 +31,13 @@ class TestPassage < ApplicationRecord
     end
   end
 
+  def time_left
+    created_at + test.time_to_pass_duration - Time.current
+  end
+
   def still_have_time?
     return true unless test.with_timer?
-    created_at + test.time_to_pass_duration > Time.current
+    time_left > 0
   end
 
   def finish!

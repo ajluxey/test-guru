@@ -1,4 +1,7 @@
 <h1>Passing the <%= @test_passage.test.title %></h1>
+
+<%= time_limit(@test_passage) %>
+
 <%= content_tag :div, class: "progress", data: { test_passage_id: @test_passage.id } do %>
   <%= content_tag :div,
                   '',
@@ -11,7 +14,7 @@
   <b><%= @test_passage.current_question.body %></b>
 </b>
 
-<%= form_with url: test_passage_path(@test_passage), local: true, method: :put do |form| %>
+<%= form_with url: test_passage_path(@test_passage), class: "timer-form", data: { test_passage_id: @test_passage.id }, local: true, method: :put do |form| %>
   <%= form.collection_check_boxes :answer_ids, @test_passage.current_question.answers, :id, :body, include_hidden: false do |block|%>
     <p>
       <%= block.check_box id: "answer_ids_#{block.object.id}" %>
@@ -20,5 +23,5 @@
   <% end %>
 
   <p><%= link_to "Gist Question", test_passage_gists_path(@test_passage), method: :post %></p>
-  <p><%= form.submit 'Next' %></p>
+  <p><%= form.submit 'Next'%></p>
 <% end %>

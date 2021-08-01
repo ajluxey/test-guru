@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_20_223524) do
+ActiveRecord::Schema.define(version: 2021_07_31_103351) do
 
   create_table "answers", force: :cascade do |t|
     t.string "body", null: false
@@ -19,6 +19,16 @@ ActiveRecord::Schema.define(version: 2021_07_20_223524) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
+  create_table "badges", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "description", null: false
+    t.string "rule", null: false
+    t.string "rule_value"
+    t.string "image_path", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -64,6 +74,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_223524) do
     t.integer "author_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "time_to_pass"
     t.index ["author_id"], name: "index_tests_on_author_id"
     t.index ["category_id"], name: "index_tests_on_category_id"
     t.index ["title", "level"], name: "index_tests_on_title_and_level", unique: true
@@ -95,6 +106,13 @@ ActiveRecord::Schema.define(version: 2021_07_20_223524) do
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["type"], name: "index_users_on_type"
+  end
+
+  create_table "users_badges", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "badge_id", null: false
+    t.index ["badge_id", "user_id"], name: "index_users_badges_on_badge_id_and_user_id"
+    t.index ["user_id", "badge_id"], name: "index_users_badges_on_user_id_and_badge_id"
   end
 
   add_foreign_key "answers", "questions"

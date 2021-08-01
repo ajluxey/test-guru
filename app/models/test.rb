@@ -25,4 +25,14 @@ class Test < ApplicationRecord
   validates :title, uniqueness: { scope: :level }
   validates :level, numericality: { greater_than_or_equal_to: 0,
                                     only_integer: true }
+
+  def with_timer?
+    time_to_pass.present?
+  end
+  
+  def time_to_pass_duration
+    return unless with_timer?
+    seconds, minutes, hours, _ = time_to_pass.to_a
+    hours.hour + minutes.minute + seconds.second
+  end
 end

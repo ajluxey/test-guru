@@ -20,7 +20,7 @@ class TestPassage < ApplicationRecord
   end
 
   def successfully_passed?
-    calculate_result > PASSAGE_TRESHOLD
+    complited? && calculate_result > PASSAGE_TRESHOLD
   end
 
   def calculate_result
